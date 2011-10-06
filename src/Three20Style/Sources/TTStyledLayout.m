@@ -57,7 +57,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithRootNode:(TTStyledNode*)rootNode {
-  if (self = [super init]) {
+	self = [super init];
+  if (self) {
     _rootNode = rootNode;
   }
 
@@ -67,7 +68,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithX:(CGFloat)x width:(CGFloat)width height:(CGFloat)height {
-  if (self = [super init]) {
+	self = [super init];
+  if (self) {
     _x = x;
     _minX = x;
     _width = width;
@@ -355,13 +357,28 @@
 
   // Vertically align all frames on the current line
   if (_lineFirstFrame.nextFrame) {
-    TTStyledFrame* frame = _lineFirstFrame;
+    TTStyledFrame* frame;
+
+    // Find the descender that descends the farthest below the baseline.
+    // font.descender is a negative number if the descender descends below
+    // the baseline (as most descenders do), but can also be a positive
+    // number for a descender above the baseline.
+    CGFloat lowestDescender = MAXFLOAT;
+    frame = _lineFirstFrame;
+    while (frame) {
+      UIFont* font = frame.font ? frame.font : _font;
+      lowestDescender = MIN(lowestDescender, font.descender);
+      frame = frame.nextFrame;
+    }
+
+    frame = _lineFirstFrame;
     while (frame) {
       // Align to the text baseline
       // XXXjoe Support top, bottom, and center alignment also
       if (frame.height < _lineHeight) {
         UIFont* font = frame.font ? frame.font : _font;
-        [self offsetFrame:frame by:(_lineHeight - (frame.height - font.descender))];
+        [self offsetFrame:frame by:(_lineHeight - (frame.height -
+                                                   (lowestDescender - font.descender)))];
       }
       frame = frame.nextFrame;
     }
@@ -692,7 +709,7 @@
 
   NSInteger stringIndex = 0;
   NSInteger lineStartIndex = 0;
-  CGFloat frameWidth = 0;
+  CGFloat frameWidth = 0.0f;
   NSInteger frameStart = 0;
 
   while (stringIndex < length) {
@@ -725,7 +742,7 @@
                                                                stringIndex - frameStart)]
                           sizeWithFont:_font].width;
             [self addFrameForText:line element:element node:textNode width:frameWidth
-                  height:_lineHeight ? _lineHeight : [_font ttLineHeight]];
+                  height:[_font ttLineHeight]];
           }
 
           if (_lineWidth) {
@@ -747,7 +764,7 @@
         frameWidth = [[text substringWithRange:NSMakeRange(frameStart, stringIndex - frameStart)]
                       sizeWithFont:_font].width;
         [self addFrameForText:line element:element node:textNode width:frameWidth
-              height:_lineHeight ? _lineHeight : [_font ttLineHeight]];
+              height:[_font ttLineHeight]];
 
         lineStartIndex = lineRange.location + lineRange.length;
         frameStart = stringIndex;
@@ -763,7 +780,7 @@
           frameWidth = [[text substringWithRange:NSMakeRange(frameStart, stringIndex - frameStart)]
                         sizeWithFont:_font].width;
           [self addFrameForText:line element:element node:textNode width:frameWidth
-                height:_lineHeight ? _lineHeight : [_font ttLineHeight]];
+                height:[_font ttLineHeight]];
         }
 
         if (_lineWidth) {
