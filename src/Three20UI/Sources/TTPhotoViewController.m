@@ -82,8 +82,8 @@ static const NSInteger kActivityLabelTag          = 96;
         target: nil
         action: nil] autorelease];
 
-    self.statusBarStyle = UIStatusBarStyleBlackTranslucent;
-    self.navigationBarStyle = UIBarStyleBlackTranslucent;
+    self.statusBarStyle = UIStatusBarStyleBlackOpaque;
+    self.navigationBarStyle = UIBarStyleBlackOpaque;
     self.navigationBarTintColor = nil;
     self.wantsFullScreenLayout = YES;
     self.hidesBottomBarWhenPushed = YES;
@@ -804,8 +804,8 @@ static const NSInteger kActivityLabelTag          = 96;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)scrollViewWillBeginDragging:(TTScrollView *)scrollView {
   [self cancelImageLoadTimer];
-  [self showCaptions:NO];
-  [self showBars:NO animated:YES];
+//  [self showCaptions:NO];
+//  [self showBars:NO animated:YES];
 }
 
 
@@ -849,10 +849,10 @@ static const NSInteger kActivityLabelTag          = 96;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)scrollView:(TTScrollView*)scrollView tapped:(UITouch*)touch {
   if ([self isShowingChrome]) {
-    [self showBars:NO animated:YES];
+//    [self showBars:NO animated:YES];
 
   } else {
-    [self showBars:YES animated:NO];
+//    [self showBars:YES animated:NO];
   }
 }
 
