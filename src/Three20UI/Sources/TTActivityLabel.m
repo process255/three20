@@ -35,7 +35,7 @@
 static CGFloat kMargin          = 10.0f;
 static CGFloat kPadding         = 15.0f;
 static CGFloat kBannerPadding   = 8.0f;
-static CGFloat kSpacing         = 6.0f;
+static CGFloat kSpacing         = 15.0f;
 static CGFloat kProgressMargin  = 6.0f;
 
 

@@ -144,6 +144,7 @@ TT_FIX_CATEGORY_BUG(NSDateAdditions)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)formatRelativeTime {
+
   NSTimeInterval elapsed = [self timeIntervalSinceNow];
   if (elapsed > 0) {
     if (elapsed <= 1) {

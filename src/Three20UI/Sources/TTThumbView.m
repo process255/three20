@@ -33,7 +33,7 @@
 		if (self) {
 
     self.backgroundColor = TTSTYLEVAR(thumbnailBackgroundColor);
-    self.clipsToBounds = YES;
+    self.clipsToBounds = NO;
 
     [self setStylesWithSelector:@"thumbView:"];
   }
